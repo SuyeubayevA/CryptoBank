@@ -1,0 +1,363 @@
+openapi: "3.0.3"
+info:
+  title: "Pharmacy products information API"
+  version: "1.0.0"
+  description: "Web API for maintaining a list of events"
+paths:
+# Products
+  /products:
+    get:
+      summary: "Return all products"
+      description: 'Return a **list of all** products'
+      operationId: GetAllProducts
+      responses:
+        default: 
+          description: "Default error sample response"
+        '200':
+          description: "OK"
+          content:
+            application/json:
+             schema:
+              type: array
+              items: 
+                $ref: "#/components/schemas/product"
+        '400':
+          description: "Invalid ID"
+        '404':
+          description: "Product not found"
+        '500':
+          description: "Internal server error"
+      tags:
+          - "Products"
+    post:
+      summary: "Create product"
+      description: 'Create a **new** product'
+      operationId: CreateProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/product"
+      responses:
+        default: 
+          description: "Default error sample response"
+        '201':
+          description: "Product successfully created"
+          content:
+            application/json:
+             schema: 
+                $ref: "#/components/schemas/product"
+        '400':
+          description: "Invalid input"
+        '500':
+          description: "Internal server error"
+      tags:
+          - "Products"
+  "/products/{toBeDeletedProductId}":
+    delete:
+      summary: "Delete specific object"
+      description: "Delete specific object"
+      operationId: "DeleteProduct"
+      parameters:
+        - name: "toBeDeletedProductId"
+          description: "Id of specific product"
+          in: "path"
+          schema: 
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: "Success"
+      tags:
+        - "Products"
+  "/products/{productId}":
+    get:
+      summary: "Get specific product"
+      description: "Returns **specific one** product"
+      operationId: "GetOneProduct"
+      parameters:
+        - name: "productId"
+          description: "Id of specific product"
+          in: "path"
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/productInfo"
+      tags:
+        - "Products"
+
+# Warehouses
+  /warehouses:
+    get:
+      summary: "Return all warehouses"
+      description: 'Return a **list of all** warehouses'
+      operationId: GetAllWarehouses
+      responses:
+        default: 
+          description: "Default error sample response"
+        '200':
+          description: "OK"
+          content:
+            application/json:
+             schema:
+              type: array
+              items: 
+                $ref: "#/components/schemas/warehouse"
+        '400':
+          description: "Invalid ID"
+        '404':
+          description: "warehouse not found"
+        '500':
+          description: "Internal server error"
+      tags:
+          - "Warehouses"
+    post:
+      summary: "Create Warehouse"
+      description: 'Create a **new** warehouse'
+      operationId: CreateWarehouse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/warehouse"
+      responses:
+        default: 
+          description: "Default error sample response"
+        '201':
+          description: "Warehouse successfully created"
+          content:
+            application/json:
+             schema: 
+                $ref: "#/components/schemas/warehouse"
+        '400':
+          description: "Invalid input"
+        '500':
+          description: "Internal server error"
+      tags:
+          - "Warehouses"         
+  "/warehouses/{toBeDeletedwarehouseId}":
+    delete:
+      summary: "Delete specific object"
+      description: "Delete specific object"
+      operationId: "DeleteWarehouse"
+      parameters:
+        - name: "toBeDeletedWarehouseId"
+          description: "Id of specific warehouse"
+          in: "path"
+          schema: 
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: "Success"
+      tags:
+        - "Warehouses"
+  "/warehouses/{warehouseId}":
+    get:
+      summary: "Get specific warehouse"
+      description: "Returns **specific one** warehouse"
+      operationId: "GetOnewarehouse"
+      parameters:
+        - name: "productId"
+          description: "Id of specific warehouse"
+          in: "path"
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/warehouse"
+      tags:
+        - "Warehouses"
+
+# ProductType
+  /productTypes:
+    get:
+      summary: "Return all productTypes"
+      description: 'Return a **list of all** productTypes'
+      operationId: GetAllProductTypes
+      responses:
+        default: 
+          description: "Default error sample response"
+        '200':
+          description: "OK"
+          content:
+            application/json:
+             schema:
+              type: array
+              items: 
+                $ref: "#/components/schemas/productType"
+        '400':
+          description: "Invalid ID"
+        '404':
+          description: "productType not found"
+        '500':
+          description: "Internal server error"
+      tags:
+          - "ProductTypes"
+    post:
+      summary: "Create ProductType"
+      description: 'Create a **new** productType'
+      operationId: CreateProductType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/productType"
+      responses:
+        default: 
+          description: "Default error sample response"
+        '201':
+          description: "ProductType successfully created"
+          content:
+            application/json:
+             schema: 
+                $ref: "#/components/schemas/productType"
+        '400':
+          description: "Invalid input"
+        '500':
+          description: "Internal server error"
+      tags:
+          - "ProductTypes"       
+  "/productTypes/{toBeDeletedProdTypeId}":
+    delete:
+      summary: "Delete specific object"
+      description: "Delete specific object"
+      operationId: "DeleteProductType"
+      parameters:
+        - name: "toBeDeletedProdTypeId"
+          description: "Id of specific productType"
+          in: "path"
+          schema: 
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: "Success"
+      tags:
+        - "ProductTypes"
+  "/productTypes/{productTypeId}":
+    get:
+      summary: "Get specific productType"
+      description: "Returns **specific one** productType"
+      operationId: "GetOneProductType"
+      parameters:
+        - name: "productTypeId"
+          description: "Id of specific productType"
+          in: "path"
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/productType"
+      tags:
+        - "ProductTypes"
+
+components:
+  schemas:
+    product:
+      type: object
+      required:
+        - "id"
+        - "name"
+        - "description"
+        - "productTypeId"
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 1
+          description: "Primary key for product"
+        productTypeId:
+          type: integer
+          format: int32
+          minimum: 1
+          description: "Type of Product Id"
+        name:
+          type: string
+          description: "Name of product"
+        description:
+          type: string
+          description: "Description of a product"
+        price:
+          type: integer
+          description: "Price of a product"
+
+    productInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 1
+          description: "Primary key for product"
+        name:
+          type: string
+          description: "Name of product"
+        description:
+          type: string
+          description: "Description of a product"
+        price:
+          type: integer
+          description: "Price of a product"
+        amount:
+          type: integer
+          description: "Amount of a product"
+        discount:
+          type: string
+          description: "Per cent of discount or NO_DISCOUNT message"
+
+    warehouse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 1
+          description: "Primary key for warehouse"
+        name:
+          type: string
+          description: "Name of warehouse"
+        address:
+          type: string
+          description: "Address of a warehouse"
+          minLength: 5
+          maxLength: 200
+
+    productType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 1
+          description: "Primary key for productype"
+        name:
+          type: string
+          description: "Name of productype"
+        properties:
+          type: string
+          description: "Address of a productype"
+          minLength: 5
+          maxLength: 500

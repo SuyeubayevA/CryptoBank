@@ -1,4 +1,4 @@
-resource "hcloud_firewall" "api_firewall" {
+resource "hcloud_firewall" "database_firewall" {
   name = "${var.name}_firewall"
   
    rule {
@@ -9,7 +9,6 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для SSH подключений к серверу"
     source_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
 
@@ -20,7 +19,6 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для DNS запросов из сервера"
     destination_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
 
@@ -31,7 +29,6 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для DNS запросов из сервера"
     destination_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
 
@@ -42,7 +39,6 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для HTTP запросов из сервера"
     destination_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
 
@@ -53,7 +49,6 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для HTTP запросов из сервера"
     destination_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
 
@@ -64,7 +59,6 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для HTTPS запросов из сервера"
     destination_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
 
@@ -75,78 +69,27 @@ resource "hcloud_firewall" "api_firewall" {
 	description     = "Для HTTPS запросов из сервера"
     destination_ips = [
       "0.0.0.0/0",
-      "::/0",
     ]
   }
   
   rule {
     destination_ips = []
     direction       = "in"
-    port            = "80"
-    protocol        = "tcp"
-	description     = "Для HTTP запросов к серверу от frontend"
-    source_ips = [
-      "10.0.1.1/32",
-    ]
-  }
-  
-  rule {
-    destination_ips = []
-    direction       = "in"
-    port            = "80"
-    protocol        = "udp"
-	description     = "Для HTTP запросов к серверу от frontend"
-    source_ips = [
-      "10.0.1.1/32",
-    ]
-  }
-  
-  rule {
-    destination_ips = []
-    direction       = "in"
-    port            = "443"
-    protocol        = "tcp"
-	description     = "Для HTTPS запросов к серверу от frontend"
-    source_ips = [
-      "10.0.1.1/32",
-    ]
-  }
-  
-  rule {
-    destination_ips = []
-    direction       = "in"
-    port            = "443"
-    protocol        = "udp"
-	description     = "Для HTTPS запросов к серверу от frontend"
-    source_ips = [
-      "10.0.1.1/32",
-    ]
-  }
-  
-  rule {
-	direction       = "out"
     port            = "5432"
     protocol        = "tcp"
-	description     = "Для запросов к database из сервера"
-    destination_ips = [
-      "10.0.1.1/32",
+	description     = "Для запросов к серверу от backend"
+    source_ips = [
+      "10.0.1.2/32",
     ]
   }
 }
 
-resource "hcloud_server" "node1" {
-  name         = "node1"
-  image        = "debian-11"
-  server_type  = "cx11"
-  firewall_ids = [hcloud_firewall.api_firewall.id]
-}
-
-resource "hcloud_server" "backend_server" {
+resource "hcloud_server" "database_server" {
   name        = var.name
   image       = var.image
   server_type = var.server_type
   
   labels = {
-    purpose : "backend"
+    purpose : "database"
   }
 }

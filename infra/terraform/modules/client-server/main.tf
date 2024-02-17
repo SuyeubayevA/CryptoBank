@@ -139,6 +139,10 @@ resource "hcloud_server" "frontend_server" {
     purpose : "frontend"
   }
   
+  firewall_ids = [
+    hcloud_firewall.client_firewall.id
+  ]
+  
   network {
     network_id = var.network_id
   }

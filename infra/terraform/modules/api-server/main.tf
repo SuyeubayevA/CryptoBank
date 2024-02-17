@@ -144,6 +144,10 @@ resource "hcloud_server" "backend_server" {
     purpose : "backend"
   }
   
+  firewall_ids = [
+    hcloud_firewall.api_firewall.id
+  ]
+  
   network {
     network_id = var.network_id
   }

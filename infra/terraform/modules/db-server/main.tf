@@ -94,6 +94,10 @@ resource "hcloud_server" "database_server" {
     purpose : "database"
   }
   
+  firewall_ids = [
+    hcloud_firewall.database_firewall.id
+  ]
+  
   network {
     network_id = var.network_id
   }

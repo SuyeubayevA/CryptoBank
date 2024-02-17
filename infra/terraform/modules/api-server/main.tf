@@ -134,19 +134,17 @@ resource "hcloud_firewall" "api_firewall" {
   }
 }
 
-resource "hcloud_server" "node1" {
-  name         = "node1"
-  image        = "debian-11"
-  server_type  = "cx11"
-  firewall_ids = [hcloud_firewall.api_firewall.id]
-}
-
 resource "hcloud_server" "backend_server" {
   name        = var.name
   image       = var.image
   server_type = var.server_type
+  location    = var.location
   
   labels = {
     purpose : "backend"
+  }
+  
+  network {
+    network_id = var.network_id
   }
 }

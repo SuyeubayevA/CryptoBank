@@ -133,8 +133,13 @@ resource "hcloud_server" "frontend_server" {
   name        = var.name
   image       = var.image
   server_type = var.server_type
+  location    = var.location
   
   labels = {
     purpose : "frontend"
+  }
+  
+  network {
+    network_id = var.network_id
   }
 }

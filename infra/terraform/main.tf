@@ -18,7 +18,7 @@ module "backend" {
 	source = "./modules/api-server"
 	
 	name = "backend"
-	location = "test1"
+	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
 	network_id = hcloud_network.h_network.id
@@ -28,7 +28,7 @@ module "frontend" {
 	source = "./modules/client-server"
 	
 	name = "frontend"
-	location = "test2"
+	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
 	network_id = hcloud_network.h_network.id
@@ -38,7 +38,7 @@ module "database" {
 	source = "./modules/db-server"
 	
 	name = "database"
-	location = "test3"
+	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
 	network_id = hcloud_network.h_network.id

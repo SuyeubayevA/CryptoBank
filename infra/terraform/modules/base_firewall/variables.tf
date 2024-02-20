@@ -18,7 +18,3 @@ variable "image" {
 variable "network_id" {
 	type = number
 }
-
-variable "base_firewall_id" {
-  type = number
-}

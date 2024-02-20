@@ -14,6 +14,15 @@ resource "hcloud_network_subnet" "h_subnet" {
   ip_range     = "10.0.1.0/24"
 }
 
+module "base_firewall" {
+	source = "./modules/base_firewall"
+  
+	name = "base"
+	server_type = "cx21"
+	location = "nbg1"
+	network_id = hcloud_network.h_network.id
+}
+
 module "backend" {
 	source = "./modules/api-server"
 	
@@ -21,6 +30,7 @@ module "backend" {
 	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
+	base_firewall_id = module.base_firewall.id
 	network_id = hcloud_network.h_network.id
 }
 
@@ -31,6 +41,7 @@ module "frontend" {
 	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
+	base_firewall_id = module.base_firewall.id
 	network_id = hcloud_network.h_network.id
 }
 
@@ -41,6 +52,7 @@ module "database" {
 	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
+	base_firewall_id = module.base_firewall.id
 	network_id = hcloud_network.h_network.id
 }
 

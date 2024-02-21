@@ -16,11 +16,6 @@ resource "hcloud_network_subnet" "h_subnet" {
 
 module "base_firewall" {
 	source = "./modules/base_firewall"
-  
-	name = "base"
-	server_type = "cx21"
-	location = "nbg1"
-	network_id = hcloud_network.h_network.id
 }
 
 module "backend" {

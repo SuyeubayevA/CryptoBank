@@ -14,23 +14,40 @@ resource "hcloud_network_subnet" "h_subnet" {
   ip_range     = "10.0.1.0/24"
 }
 
-module "api_server_1" {
+module "base_firewall" {
+	source = "./modules/base_firewall"
+}
+
+module "backend" {
 	source = "./modules/api-server"
 	
-	name = "test"
-	location = "test1"
+	name = "backend"
+	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
+	base_firewall_id = module.base_firewall.id
 	network_id = hcloud_network.h_network.id
 }
 
-module "api_server_2" {
-	source = "./modules/api-server"
+module "frontend" {
+	source = "./modules/client-server"
 	
-	name = "test2"
-	location = "test2"
+	name = "frontend"
+	location = "nbg1"
 	server_type = "cx21"
 	image = "ubuntu-22.04"
+	base_firewall_id = module.base_firewall.id
+	network_id = hcloud_network.h_network.id
+}
+
+module "database" {
+	source = "./modules/db-server"
+	
+	name = "database"
+	location = "nbg1"
+	server_type = "cx21"
+	image = "ubuntu-22.04"
+	base_firewall_id = module.base_firewall.id
 	network_id = hcloud_network.h_network.id
 }
 
@@ -43,11 +60,11 @@ resource "hcloud_load_balancer" "load_balancer" {
 resource "hcloud_load_balancer_target" "load_balancer_target_1" {
   type             = "server"
   load_balancer_id = hcloud_load_balancer.load_balancer.id
-  server_id        = module.api_server_1.id
+  server_id        = module.backend.id
 }
 
 resource "hcloud_load_balancer_target" "load_balancer_target_2" {
   type             = "server"
   load_balancer_id = hcloud_load_balancer.load_balancer.id
-  server_id        = module.api_server_2.id
+  server_id        = module.frontend.id
 }

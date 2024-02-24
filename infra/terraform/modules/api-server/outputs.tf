@@ -1,3 +1,3 @@
 output "id" {
-  value = hcloud_server.crypto_bank_server.id
+  value = hcloud_server.backend_server.id
 }
